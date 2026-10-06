@@ -480,3 +480,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Arquivos locais de contexto (não versionar)
+contexto.md
+referencia.MD
+.claude/
