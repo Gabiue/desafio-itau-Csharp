@@ -1,4 +1,7 @@
 @DesafioItau.Api_HostAddress = http://localhost:5146
+### Válida → 201
+POST {{DesafioItau.Api_HostAddress}}/transacao
+Content-Type: application/json
 
 
 ###
