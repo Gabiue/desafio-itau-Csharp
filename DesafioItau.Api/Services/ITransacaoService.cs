@@ -6,4 +6,6 @@ public interface ITransacaoService
 {
     void Adicionar(Transacao transacao);
     void Limpar();
+
+    Estatistica ObterEstatisticas();
 }
