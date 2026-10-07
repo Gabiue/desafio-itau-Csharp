@@ -69,4 +69,28 @@ public class TransacaoServiceTests
 
     }
 
+    [Fact]
+    public void Limpar_ComTransacoes_RemoveTodas()
+    {
+        //arrange
+        var service = CriarService();
+
+        service.Adicionar(new Transacao(999, DateTimeOffset.UtcNow.AddSeconds(-120)));
+        service.Adicionar(new Transacao(150, DateTimeOffset.UtcNow));
+        service.Adicionar(new Transacao(100,DateTimeOffset.UtcNow));
+        service.Adicionar(new Transacao(50, DateTimeOffset.UtcNow));
+        //Act
+        service.Limpar();
+        var resultado = service.ObterEstatisticas();
+
+
+        //assert
+        Assert.Equal(0, resultado.Count);
+        Assert.Equal(0, resultado.Sum);
+        Assert.Equal(0, resultado.Avg);
+        Assert.Equal(0, resultado.Min);
+        Assert.Equal(0, resultado.Max);
+    }
+
+
 }
