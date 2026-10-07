@@ -1,8 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using DesafioItau.Api.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 
@@ -37,6 +35,7 @@ public class EstatisticaControllerTests(WebApplicationFactory<Program> factory) 
         //APAGA TUDO E CONFERE
 
         var respostaDelete = await client.DeleteAsync("/transacao");
+        Assert.Equal(HttpStatusCode.OK, respostaDelete.StatusCode);
         var depois = await
         client.GetFromJsonAsync<Estatistica>("/estatistica");
         Assert.Equal(0, depois!.Count);
