@@ -1,8 +1,10 @@
+using DesafioItau.Api.Config;
 using DesafioItau.Api.Models;
+using Microsoft.Extensions.Options;
 
 namespace DesafioItau.Api.Services;
 
-public class TransacaoService : ITransacaoService
+public class TransacaoService(IOptions<EstatisticaOptions> options) : ITransacaoService
 {
     private readonly List<Transacao> _transacoes = [];
     private readonly Lock _lock = new();
@@ -24,7 +26,7 @@ public class TransacaoService : ITransacaoService
 
     public Estatistica ObterEstatisticas()
     {
-        var limite = DateTimeOffset.UtcNow.AddSeconds(-60);
+        var limite = DateTimeOffset.UtcNow.AddSeconds(-options.Value.JanelaEmSegundos);
 
         lock (_lock)
         {

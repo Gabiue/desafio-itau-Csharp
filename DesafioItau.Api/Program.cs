@@ -1,5 +1,6 @@
 using DesafioItau.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using DesafioItau.Api.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddControllers()
     options.InvalidModelStateResponseFactory = _ => new BadRequestResult();
 });
 builder.Services.AddSingleton<ITransacaoService, TransacaoService>();
+builder.Services.AddHealthChecks();
+builder.Services.Configure<EstatisticaOptions>(builder.Configuration.GetSection("Estatistica"));
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -20,4 +23,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.MapHealthChecks("/health");
 app.Run();
