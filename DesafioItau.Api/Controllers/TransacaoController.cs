@@ -1,4 +1,3 @@
-using System.Data;
 using DesafioItau.Api.Dtos;
 using DesafioItau.Api.Models;
 using DesafioItau.Api.Services;
@@ -23,5 +22,11 @@ public class TransacaoController(ITransacaoService service) : ControllerBase
         service.Adicionar(transacao);
 
         return StatusCode(StatusCodes.Status201Created);
+    }
+    [HttpDelete]
+    public IActionResult Delete()
+    {
+        service.Limpar();
+        return Ok();
     }
 }

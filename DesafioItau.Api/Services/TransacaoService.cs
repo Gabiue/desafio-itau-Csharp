@@ -14,4 +14,11 @@ public class TransacaoService : ITransacaoService
             _transacoes.Add(transacao);
         }
     }
+    public void Limpar()
+    {
+        lock (_lock)
+        {
+            _transacoes.Clear();
+        }
+    }
 }
