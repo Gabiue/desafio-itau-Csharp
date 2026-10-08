@@ -15,6 +15,7 @@ A API recebe transações e calcula estatísticas das que aconteceram nos **últ
 | `POST`   | `/transacao`  | Registra uma transação                        | `201`, `422`, `400` |
 | `DELETE` | `/transacao`  | Apaga todas as transações                     | `200`              |
 | `GET`    | `/estatistica`| Estatísticas das transações dos últimos 60s   | `200`              |
+| `GET`    | `/health`     | Verifica se a API está no ar                  | `200`              |
 
 ### Exemplo: `POST /transacao`
 
@@ -51,6 +52,16 @@ Sem transações nos últimos 60 segundos, todos os valores retornam `0`.
 - ASP.NET Core
 - xUnit (testes)
 
+## Configuração
+
+A janela de tempo das estatísticas (padrão: 60 segundos) pode ser alterada no `appsettings.json`:
+
+```json
+"Estatistica": {
+  "JanelaEmSegundos": 60
+}
+```
+
 ## Como executar
 
 Pré-requisito: [.NET 10 SDK](https://dotnet.microsoft.com/download)
@@ -63,6 +74,13 @@ dotnet run --project DesafioItau.Api
 dotnet test
 ```
 
+## Testes
+
+18 testes com xUnit:
+
+- **Unitários** (`TransacaoService`): cálculo das estatísticas, descarte de transações fora da janela e limpeza.
+- **Integração** (`WebApplicationFactory`): sobem a API em memória e testam os endpoints de verdade. Cobrem os status `201`, `422` e `400` do POST, valor zero, o fluxo POST → GET → DELETE, os nomes dos campos do JSON e o `/health`.
+
 ## Status
 
-🚧 Em desenvolvimento.
+✅ Concluído. Os três endpoints do desafio estão prontos, com health check, janela configurável e testes automatizados.
