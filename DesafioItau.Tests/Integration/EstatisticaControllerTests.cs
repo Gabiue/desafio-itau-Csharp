@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using DesafioItau.Api.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -39,6 +40,27 @@ public class EstatisticaControllerTests(WebApplicationFactory<Program> factory) 
         var depois = await
         client.GetFromJsonAsync<Estatistica>("/estatistica");
         Assert.Equal(0, depois!.Count);
+
+    }
+    [Fact]
+    public async Task Get_RespostaTemCamposComNomesDoDesafio()
+    {
+        //Arrage
+        var client = factory.CreateClient();
+        //Act
+        var resposta = await client.GetAsync("/estatistica");
+        var texto = await resposta.Content.ReadAsStringAsync();
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, resposta.StatusCode);
+
+        using var json = JsonDocument.Parse(texto);
+        var raiz = json.RootElement;
+
+        Assert.True(raiz.TryGetProperty("count", out _));
+        Assert.True(raiz.TryGetProperty("sum", out _));
+        Assert.True(raiz.TryGetProperty("avg", out _));
+        Assert.True(raiz.TryGetProperty("min", out _));
+        Assert.True(raiz.TryGetProperty("max", out _));
 
     }
 

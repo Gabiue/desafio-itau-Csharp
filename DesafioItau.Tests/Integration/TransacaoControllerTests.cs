@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -22,6 +23,20 @@ public class TransacaoControllerTests(WebApplicationFactory<Program> factory) : 
 
     //Assert 
     Assert.Equal(HttpStatusCode.Created,  resposta.StatusCode);
+    }
+
+    [Fact]
+    public async Task Post_ValorZero_Retorna201()
+    {
+        //Arrange
+        var client = factory.CreateClient();
+        var corpo = new {valor = 0, dataHora = DateTimeOffset.UtcNow.AddSeconds(-5)};
+
+        //Act 
+        var resposta = await client.PostAsJsonAsync("/transacao", corpo);
+
+        //assert 
+        Assert.Equal(HttpStatusCode.Created, resposta.StatusCode);
     }
 
     [Theory]
